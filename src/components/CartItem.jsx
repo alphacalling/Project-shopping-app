@@ -1,42 +1,47 @@
 import React from 'react';
-import {RiDeleteBinFill}  from 'react-icons/ri'
+import { RiDeleteBinFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { remove } from '../redux/Slices/CartSlice';
 import { toast } from 'react-hot-toast';
 
-  const CartItem = ({item, itemIndex}) => {
-    const dispatch  = useDispatch()
-    const removeFromCart = () => {
-      dispatch(remove (item.id));
-      toast.error("Item Removed")
-    }
+const CartItem = ({ item, itemIndex }) => {
+  const dispatch = useDispatch();
+
+  const removeFromCart = () => {
+    dispatch(remove(item.id));
+    toast.error("Item Removed");
+  };
 
   return (
-    
-    <div className='w-3/5'>
+    <div className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg p-6 mb-6 transform transition duration-300 hover:scale-105 hover:shadow-lg max-w-3xl mx-auto">
 
-    <div className='flex py-6 border-b-4 border-gray-600 justify-center ml-18 mb-4'>
-
-      <div className='flex justify-between'>
-        <img src={item.image} alt='' className='w-[350px] h-[250px] mt-10 mx-10 mr-6 rounded-lg' />
+      {/* Product Image */}
+      <div className="w-full md:w-1/2 flex justify-center mb-4 md:mb-0">
+        <img
+          src={item.image}
+          alt={item.title}
+          className="rounded-lg object-cover h-[250px] w-[300px]"
+        />
       </div>
 
-          <div className='h-9/15 mx-12 w'>
-            <h1 className='font-bold text-2xl'>{item.title}</h1>
-            <h1 className='font-semibold mt-5'>{item.description.split(" ").slice(0,10).join(" ") + "..."}</h1>
-          
-
-          <div className='flex justify-between mt-10'>
-            <p className='text-green-700 font-bold text-2xl'>${item.price}</p>
-
-            <div className='h-14 w-14 bg-red-100 rounded-full flex items-center justify-center ' onClick={removeFromCart}>
-            <RiDeleteBinFill className='text-red-700 font-bold text-2xl cursor-pointer' />
-            </div>
-          </div>
+      {/* Product Details */}
+      <div className="w-full md:w-1/2 flex flex-col justify-between space-y-4 md:space-y-6">
+        <h1 className="font-bold text-xl text-gray-800">{item.title}</h1>
+        <p className="text-gray-600 text-sm leading-snug">
+          {item.description.split(" ").slice(0, 15).join(" ") + "..."}
+        </p>
+        <div className="flex justify-between items-center">
+          <p className="text-green-700 font-semibold text-lg">${item.price.toFixed(2)}</p>
+          <button
+            className="bg-red-100 p-3 rounded-full hover:bg-red-200 transition duration-200"
+            onClick={removeFromCart}
+          >
+            <RiDeleteBinFill className="text-red-600 text-xl" />
+          </button>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CartItem
+export default CartItem;
